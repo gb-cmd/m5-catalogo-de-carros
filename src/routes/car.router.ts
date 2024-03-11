@@ -3,25 +3,28 @@ import { CarController } from "../controllers/car.controller";
 import { ValidateParamId } from "../middlewares/ValidateParamId.middleware";
 import { ValidateRequest } from "../middlewares/ValidateRequest.middleware";
 import { createCarSchema, updateCarSchema } from "../schemas/car.schema";
+import { container } from "tsyringe";
+import { CarServices } from "../services/car.services";
 
 export const carRouter = Router();
 
-const carController = new CarController();
+container.registerSingleton("CarServices", CarServices);
+const carController = container.resolve(CarController);
 
 carRouter.post("", 
     ValidateRequest.execute({ body: createCarSchema }), 
-    carController.createCar
+    (req, res) => carController.createCar(req, res)
 );
 
-carRouter.get("", carController.getManyCars);
+carRouter.get("", (req, res) => carController.getManyCars(req, res));
 
 carRouter.use("/:id", ValidateParamId.execute);
 
-carRouter.get("/:id", carController.getCarById);
+carRouter.get("/:id", (req, res) => carController.getCarById(req, res));
 
 carRouter.patch("/:id", 
     ValidateRequest.execute({ body: updateCarSchema }), 
-    carController.updateCar
+    (req, res) => carController.updateCar(req, res)
 );
 
-carRouter.delete("/:id", carController.deleteCar);
+carRouter.delete("/:id", (req, res) => carController.deleteCar(req, res));

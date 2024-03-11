@@ -1,3 +1,4 @@
+import "reflect-metadata";
 import express, { json } from "express";
 import { carRouter } from "./routes/car.router";
 import { HandleErrors } from "./middlewares/HandleErrors.middleware";
