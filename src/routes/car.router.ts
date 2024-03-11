@@ -18,13 +18,18 @@ carRouter.post("",
 
 carRouter.get("", (req, res) => carController.getManyCars(req, res));
 
-carRouter.use("/:id", ValidateParamId.execute);
-
-carRouter.get("/:id", (req, res) => carController.getCarById(req, res));
+carRouter.get("/:id", 
+    ValidateParamId.execute, 
+    (req, res) => carController.getCarById(req, res)
+);
 
 carRouter.patch("/:id", 
     ValidateRequest.execute({ body: updateCarSchema }), 
+    ValidateParamId.execute, 
     (req, res) => carController.updateCar(req, res)
 );
 
-carRouter.delete("/:id", (req, res) => carController.deleteCar(req, res));
+carRouter.delete("/:id", 
+    ValidateParamId.execute, 
+    (req, res) => carController.deleteCar(req, res)
+);

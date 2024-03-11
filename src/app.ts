@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "express-async-errors";
 import express, { json } from "express";
 import { carRouter } from "./routes/car.router";
 import { HandleErrors } from "./middlewares/HandleErrors.middleware";
